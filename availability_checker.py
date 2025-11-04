@@ -102,7 +102,20 @@ def main():
 
     # E-posta içeriği
     lis = [f"<li><b>{r['code']}</b>: {r['status']}</li>" for r in results]
-    html = f"<b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal<br><ul>{''.join(lis)}</ul>"
+    html = f"""
+<html>
+  <body style="font-family: Arial, sans-serif; font-size: 18px; color: #222;">
+    <h2 style="color:#0058a3;">🛒 IKEA Kartal Stok Bildirimi</h2>
+    <p><b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal</p>
+    <ul style="font-size:20px; line-height:1.6;">
+      {''.join(lis)}
+    </ul>
+    <hr>
+    <p style="font-size:14px; color:#666;">Bu e-posta otomatik olarak gönderilmiştir.</p>
+  </body>
+</html>
+"""
+
 
     # Politika: sadece VAR varsa gönder; özet için ENV ile açılabilir
     if any_var or SUMMARY_EMAIL_ON_EMPTY:
