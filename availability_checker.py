@@ -117,19 +117,52 @@ def main():
             f"</li>"
         )
     
-    html = f"""
-    <html>
-      <body style="font-family: Arial, sans-serif; font-size: 18px; color: #222;">
-        <h2 style="color:#0058a3;">🛒 IKEA Kartal Stok Bildirimi</h2>
-        <p style="font-size:17px;"><b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal</p>
-        <ul style="list-style-type:none; padding-left:0;">
-          {''.join(lis)}
-        </ul>
-        <hr style="margin-top:25px;">
-        <p style="font-size:14px; color:#777;">Bu e-posta otomatik olarak gönderilmiştir.</p>
-      </body>
-    </html>
-    """
+    # E-posta içeriği (tablo biçiminde, renkli)
+rows = []
+for r in results:
+    color_bg = (
+        "#d4edda" if r["status"] == "VAR"
+        else "#f8d7da" if r["status"] == "YOK"
+        else "#e2e3e5"
+    )
+    color_text = (
+        "#155724" if r["status"] == "VAR"
+        else "#721c24" if r["status"] == "YOK"
+        else "#383d41"
+    )
+    rows.append(
+        f"<tr style='background:{color_bg};color:{color_text};font-size:20px;'>"
+        f"<td style='padding:10px 25px;'><b>{r['code']}</b></td>"
+        f"<td style='padding:10px 25px;font-weight:bold;text-align:center;'>{r['status']}</td>"
+        f"</tr>"
+    )
+
+html = f"""
+<html>
+  <body style="font-family: Arial, sans-serif; font-size: 17px; color: #222;">
+    <h2 style="color:#0058a3;">🛒 IKEA Kartal Stok Bildirimi</h2>
+    <p style="font-size:16px;"><b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal</p>
+
+    <table style="border-collapse:collapse; width:80%; max-width:600px; border:1px solid #ccc;">
+      <thead>
+        <tr style="background:#f1f1f1;">
+          <th style="text-align:left;padding:10px 25px;">Ürün Kodu</th>
+          <th style="text-align:center;padding:10px 25px;">Durum</th>
+        </tr>
+      </thead>
+      <tbody>
+        {''.join(rows)}
+      </tbody>
+    </table>
+
+    <p style="font-size:13px; color:#777; margin-top:30px;">
+      Bu e-posta otomatik olarak gönderilmiştir.<br>
+      IKEA Kartal stok kontrol sistemi (CheckStock API).
+    </p>
+  </body>
+</html>
+"""
+
 
 
 
