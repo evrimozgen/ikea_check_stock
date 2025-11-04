@@ -102,19 +102,35 @@ def main():
 
     # E-posta içeriği
     lis = [f"<li><b>{r['code']}</b>: {r['status']}</li>" for r in results]
+# E-posta içeriği (renkli, büyük yazı)
+    lis = []
+    for r in results:
+        color = (
+            "#2ecc71" if r["status"] == "VAR"
+            else "#e74c3c" if r["status"] == "YOK"
+            else "#7f8c8d"
+        )
+        lis.append(
+            f"<li style='font-size:22px; line-height:1.6;'>"
+            f"<b>{r['code']}</b>: "
+            f"<span style='color:{color}; font-weight:bold;'>{r['status']}</span>"
+            f"</li>"
+        )
+    
     html = f"""
-<html>
-  <body style="font-family: Arial, sans-serif; font-size: 18px; color: #222;">
-    <h2 style="color:#0058a3;">🛒 IKEA Kartal Stok Bildirimi</h2>
-    <p><b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal</p>
-    <ul style="font-size:20px; line-height:1.6;">
-      {''.join(lis)}
-    </ul>
-    <hr>
-    <p style="font-size:14px; color:#666;">Bu e-posta otomatik olarak gönderilmiştir.</p>
-  </body>
-</html>
-"""
+    <html>
+      <body style="font-family: Arial, sans-serif; font-size: 18px; color: #222;">
+        <h2 style="color:#0058a3;">🛒 IKEA Kartal Stok Bildirimi</h2>
+        <p style="font-size:17px;"><b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal</p>
+        <ul style="list-style-type:none; padding-left:0;">
+          {''.join(lis)}
+        </ul>
+        <hr style="margin-top:25px;">
+        <p style="font-size:14px; color:#777;">Bu e-posta otomatik olarak gönderilmiştir.</p>
+      </body>
+    </html>
+    """
+
 
 
     # Politika: sadece VAR varsa gönder; özet için ENV ile açılabilir
