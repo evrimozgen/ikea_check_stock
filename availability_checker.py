@@ -122,12 +122,13 @@ def main():
             f"</tr>"
         )
 
+
     html = f"""
     <html>
       <body style="font-family: Arial, sans-serif; font-size: 17px; color: #222;">
         <h2 style="color:#0058a3;">🛒 IKEA Kartal Stok Bildirimi</h2>
         <p style="font-size:16px;"><b>Tarih:</b> {now}<br><b>Mağaza:</b> IKEA Kartal</p>
-
+    
         <table style="border-collapse:collapse; width:80%; max-width:600px; border:1px solid #ccc;">
           <thead>
             <tr style="background:#f1f1f1;">
@@ -139,11 +140,16 @@ def main():
             {''.join(rows)}
           </tbody>
         </table>
-
+    
         <p style="font-size:13px; color:#777; margin-top:30px;">
           Bu e-posta otomatik olarak gönderilmiştir.<br>
-          IKEA Kartal stok kontrol sistemi (CheckStock API).
+          IKEA Kartal stok kontrol sistemi (CheckStock API).<br>
+          <small>ID: {datetime.now().strftime('%H%M%S')}</small>
         </p>
+
+    
+        <!-- Gmail'in kesmemesi için görünmez benzersiz satır -->
+        <div style="display:none;">UID:{datetime.now().timestamp()}</div>
       </body>
     </html>
     """
