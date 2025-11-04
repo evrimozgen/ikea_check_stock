@@ -1,36 +1,24 @@
-name: IKEA Kartal Stock Checker
-
+name: IKEA JSON Stock Checker
 on:
   schedule:
-    # İstanbul (UTC+3): 08:00, 12:00, 16:00 -> UTC: 05:00, 09:00, 13:00
-    - cron: '0 5 * * *'
-    - cron: '0 9 * * *'
-    - cron: '0 13 * * *'
+    - cron: '0 5 * * *'   # 08:00 TR
+    - cron: '0 9 * * *'   # 12:00 TR
+    - cron: '0 13 * * *'  # 16:00 TR
+    - cron: '0 17 * * *'  # 20:00 TR
   workflow_dispatch: {}
 
 jobs:
-  run-checker:
+  check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
+      - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install playwright
-
-      - name: Install Playwright browsers
-        run: |
-          playwright install --with-deps chromium
-
-      - name: Run checker
+      - name: Run JSON checker
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -40,4 +28,4 @@ jobs:
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SUMMARY_EMAIL_ON_EMPTY: ${{ secrets.SUMMARY_EMAIL_ON_EMPTY }}
         run: |
-          python ikea_stock_checker.py
+          python availability_checker.py
