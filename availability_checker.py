@@ -106,13 +106,13 @@ def main():
     rows = []
     for r in results:
         color_bg = (
-            "#d4edda" if r["status"] == "VAR"
-            else "#f8d7da" if r["status"] == "YOK"
+            "#198C19" if r["status"] == "VAR"
+            else "#ff0000" if r["status"] == "YOK"
             else "#e2e3e5"
         )
         color_text = (
-            "#155724" if r["status"] == "VAR"
-            else "#721c24" if r["status"] == "YOK"
+            "#000000" if r["status"] == "VAR"
+            else "#000000" if r["status"] == "YOK"
             else "#383d41"
         )
         rows.append(
